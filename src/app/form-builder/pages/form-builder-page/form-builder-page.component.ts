@@ -28,13 +28,15 @@ export class FormBuilderPageComponent {
   generatedHtmlAndCss: string = ''
 
   fieldTypes = [
-    { label: 'Text', value: 'text' },
-    { label: 'Email', value: 'email' },
-    { label: 'Password', value: 'password' },
-    { label: 'Textarea', value: 'textarea' },
-    { label: 'Checkbox', value: 'checkbox' },
-    { label: 'Radio Group', value: 'radio' },
-    { label: 'Select Dropdown', value: 'select' },
+    { icon: '<i class="fa-solid fa-i-cursor"></i>', label: 'Text', value: 'text' },
+    { icon: '<i class="fa-solid fa-calendar-days"></i>', label: 'Date', value: 'date' },
+    { icon: '<i class="fa-solid fa-hashtag"></i>', label: 'Number', value: 'number' },
+    { icon: '<i class="fa-solid fa-envelope"></i>', label: 'Email', value: 'email' },
+    { icon: '<i class="fa-solid fa-key"></i>', label: 'Password', value: 'password' },
+    { icon: '<i class="fa-solid fa-paragraph"></i>', label: 'Textarea', value: 'textarea' },
+    { icon: '<i class="fa-solid fa-square-check"></i>', label: 'Checkbox', value: 'checkbox' },
+    { icon: '<i class="fa-solid fa-circle-dot"></i>', label: 'Radio Group', value: 'radio' },
+    { icon: '<i class="fa-solid fa-caret-down"></i>', label: 'Select Dropdown', value: 'select' },
   ];
 
   addField(type: any): void {
@@ -108,9 +110,15 @@ export class FormBuilderPageComponent {
     // alert("Schema exported to console.");
   }
 
+  clear() {
+    this.fields = [];
+    this.generatedHtml = '';
+    this.generatedCss = ''
+    this.generatedHtmlAndCss = ''
+  }
 
   generateFormHtml(): string | void {
-    if (!this.fields.length) return this.generatedHtml = '';
+    if (!this.fields.length) return;
     const styleBlock = `
   <style>
     label { 
@@ -290,29 +298,27 @@ export class FormBuilderPageComponent {
     this.generatedCss = `${styleBlock}`
 
     this.generatedHtml = `
-  <form onsubmit="return validateForm(this)" style="display: flex; flex-direction: column; gap: 1rem;">
-      ${formBody}
-      <div class="form-col-full">
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  `
+      <form onsubmit="return validateForm(this)" style="display: flex; flex-direction: column; gap: 1rem;">
+          ${formBody}
+          <div class="form-col-full">
+            <button type="submit">Submit</button>
+          </div>
 
-    this.generatedHtmlAndCss = `  
+      </form>     `
+
+    this.generatedHtmlAndCss = ` 
     ${this.generatedCss}
     ${this.generatedHtml}
     `;
   }
 
 
-  copyCode() {
-    if (!this.generatedHtmlAndCss) return;
-    navigator.clipboard.writeText(this.generatedHtmlAndCss).then(() => {
-      alert('Code copied to clipboard!');
-    }).catch(err => {
-      alert(`Failed to copy HTML: ${err}`);
+  copyText(content: string) {
+    navigator.clipboard.writeText(content).then(() => {
+      alert('Copied to clipboard!');
     });
   }
+
 
 
 

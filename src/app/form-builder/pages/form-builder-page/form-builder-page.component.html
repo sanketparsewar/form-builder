@@ -1,11 +1,12 @@
-<div class="flex min-h-screen bg-gray-100">
-    <div class="w-1/5 border-r p-4 bg-white shadow">
-        <h2 class="text-md font-semibold mb-3">Add Field</h2>
+<div class="flex ">
+    <div class="w-1/5 border-r p-4">
+        <h2 class="text-xl font-semibold  text-gray-700 mb-2">Add Field</h2>
 
         <ng-container *ngFor="let type of fieldTypes">
             <button
-                class="block mb-2 w-full bg-gray-600 hover:bg-gray-700 text-white text-xs px-3 py-1.5 rounded transition"
+                class="cursor-pointer block mb-2 w-full text-start bg-gray-600 hover:bg-gray-800 text-white text-s px-3 py-1.5 rounded transition"
                 (click)="addField(type)">
+                <span class="me-1" [innerHTML]="type.icon"></span>
                 {{ type.label }}
             </button>
         </ng-container>
@@ -15,16 +16,16 @@
             Field
         </button> -->
         <button
-            class=" cursor-pointer mt-4 bg-green-800 hover:bg-green-700 text-white text-xs px-3 py-1.5 rounded w-full transition"
+            class=" cursor-pointer mt-4 bg-green-800 hover:bg-green-700 text-white text-s px-3 py-1.5 rounded w-full transition"
             (click)="generateFormHtml()">
-            Generate Form Html
+            Generate Form Code
         </button>
     </div>
 
-    <div class="w-4/5 p-6">
-        <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Form Builder Preview</h2>
-            <button *ngIf="fields.length>0" (click)="fields=[];generateFormHtml()"
+    <div class="w-4/5 p-4">
+        <div class="flex items-center mb-2 justify-between">
+            <h2 class="text-xl font-semibold  text-gray-700">Form Builder Preview</h2>
+            <button *ngIf="fields.length>0" (click)="clear()"
                 class="cursor-pointer  bg-red-800 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded transition">Clear
                 Form</button>
         </div>
@@ -173,26 +174,48 @@
                 </div>
 
             </div>
-            <div class="form-col-full">
-                <button *ngIf="fields.length>0" type="button" class="cursor-pointer  bg-blue-800 hover:bg-blue-600 text-white text-xs px-3 py-1.5 rounded transition " >Submit</button>
-            </div>
         </form>
+        <div class="col-full mt-2 ">
+            <p *ngIf="fields.length==0">No Field!</p>
+            <button *ngIf="fields.length>0" type="button"
+                class="cursor-pointer   bg-blue-800 hover:bg-blue-600 text-white text-xs px-3 py-1.5 rounded transition ">Submit</button>
+        </div>
         <!-- <h3 class="text-lg font-semibold mt-6 mb-2">Form JSON Output</h3>
         <pre class="bg-gray-100 p-2 rounded text-sm">{{ fields | json }}</pre> -->
 
         <div class="mt-6">
             <div *ngIf="generatedHtml" class="mt-4">
-                <h3 class="text-lg font-semibold mb-2">Generated HTML and CSS<span
-                        class="ms-2 cursor-pointer hover:text-blue-800" (click)="copyCode()"><i
-                            class="fa-solid fa-copy"></i></span> </h3>
-                <div class="flex">
-                    <textarea class="w-full h-100 text-sm p-3 border border-gray-300 rounded bg-white text-gray-800"
-                        readonly>{{ generatedHtml }}</textarea>
-                    <textarea class="w-full h-100 text-sm p-3 border border-gray-300 rounded bg-white text-gray-800"
-                        readonly>{{ generatedCss }}</textarea>
+                <h3 class="text-lg font-semibold mb-2">Generated HTML and CSS</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <!-- HTML Section -->
+                    <div class="relative">
+                        <button
+                            class="absolute top-2 right-4 cursor-pointer text-gray-500 hover:text-gray-700 text-s px-2 py-1 z-10"
+                            (click)="copyText(generatedHtml)">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <textarea
+                            class="w-full h-100 resize-none text-sm p-3 border border-gray-300 rounded bg-white text-gray-800"
+                            readonly>{{ generatedHtml }}</textarea>
+                    </div>
+
+                    <!-- CSS Section -->
+                    <div class="relative">
+                        <button
+                            class="absolute top-2 right-4 cursor-pointer text-gray-500 hover:text-gray-700 text-s px-2 py-1 z-10"
+                            (click)="copyText(generatedCss)">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <textarea
+                            class="w-full h-100 resize-none text-sm p-3 border border-gray-300 rounded bg-white text-gray-800"
+                            readonly>{{ generatedCss }}</textarea>
+                    </div>
+
                 </div>
             </div>
         </div>
+
 
     </div>
 </div>
