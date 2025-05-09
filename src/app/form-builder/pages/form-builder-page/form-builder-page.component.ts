@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'app-form-builder-page',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,DragDropModule],
   templateUrl: './form-builder-page.component.html',
-  styleUrl: './form-builder-page.component.css'
+  styleUrl: './form-builder-page.component.css',
+  
 })
 export class FormBuilderPageComponent {
   fields: {
@@ -112,10 +115,30 @@ export class FormBuilderPageComponent {
 
   clear() {
     this.fields = [];
+    this.close()
+  }
+  close(){
     this.generatedHtml = '';
     this.generatedCss = ''
     this.generatedHtmlAndCss = ''
   }
+
+  drop(event: CdkDragDrop<any[]>) {
+    moveItemInArray(this.fields, event.previousIndex, event.currentIndex);
+  }
+
+  moveFieldUp(index: number): void {
+    if (index > 0) {
+      [this.fields[index - 1], this.fields[index]] = [this.fields[index], this.fields[index - 1]];
+    }
+  }
+  
+  moveFieldDown(index: number): void {
+    if (index < this.fields.length - 1) {
+      [this.fields[index], this.fields[index + 1]] = [this.fields[index + 1], this.fields[index]];
+    }
+  }
+  
 
   generateFormHtml(): string | void {
     if (!this.fields.length) return;
