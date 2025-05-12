@@ -2,14 +2,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ToastService } from '../../../services/toast/toast.service';
 
 
 @Component({
   selector: 'app-form-builder-page',
-  imports: [CommonModule, FormsModule,DragDropModule],
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './form-builder-page.component.html',
   styleUrl: './form-builder-page.component.css',
-  
+
 })
 export class FormBuilderPageComponent {
   fields: {
@@ -41,6 +42,10 @@ export class FormBuilderPageComponent {
     { icon: '<i class="fa-solid fa-circle-dot"></i>', label: 'Radio Group', value: 'radio' },
     { icon: '<i class="fa-solid fa-caret-down"></i>', label: 'Select Dropdown', value: 'select' },
   ];
+
+  constructor(private toastService: ToastService) {
+
+  }
 
   addField(type: any): void {
     const uniqueId = type.value + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
@@ -108,16 +113,12 @@ export class FormBuilderPageComponent {
     console.log(field)
   }
 
-  exportSchema(): void {
-    const schema = JSON.stringify(this.fields, null, 2);
-    // alert("Schema exported to console.");
-  }
 
   clear() {
     this.fields = [];
     this.close()
   }
-  close(){
+  close() {
     this.generatedHtml = '';
     this.generatedCss = ''
     this.generatedHtmlAndCss = ''
@@ -132,13 +133,13 @@ export class FormBuilderPageComponent {
       [this.fields[index - 1], this.fields[index]] = [this.fields[index], this.fields[index - 1]];
     }
   }
-  
+
   moveFieldDown(index: number): void {
     if (index < this.fields.length - 1) {
       [this.fields[index], this.fields[index + 1]] = [this.fields[index + 1], this.fields[index]];
     }
   }
-  
+
 
   generateFormHtml(): string | void {
     if (!this.fields.length) return;
@@ -338,7 +339,7 @@ export class FormBuilderPageComponent {
 
   copyText(content: string) {
     navigator.clipboard.writeText(content).then(() => {
-      alert('Copied to clipboard!');
+      this.toastService.showSuccess('Code copied.');
     });
   }
 

@@ -3,3 +3,4 @@
 ::-webkit-scrollbar {
     display: none;
 }
+@import 'ngx-toastr/toastr';

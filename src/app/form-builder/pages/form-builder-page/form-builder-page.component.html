@@ -21,9 +21,6 @@
                 Generate Form Code
             </button>
         </div>
-
-        <!-- Generate Button -->
-
     </div>
 
 
@@ -187,14 +184,15 @@
                                 class="w-full text-sm p-2 border border-gray-300 rounded bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
                                 placeholder="Label" [ngClass]="{'border-red-600 focus:ring-0':!field.label}" />
                         </label>
-    
+
                         <input *ngIf="field.type !== 'checkbox' && field.type !== 'radio' && field.type !== 'select'"
                             type="text" [(ngModel)]="field.placeholder" [name]="'placeholder_'+field.id"
                             class="w-full text-sm p-2 border border-gray-300 rounded bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
                             placeholder="Placeholder" />
-    
+
                         <input *ngIf="field.type === 'checkbox' || field.type === 'radio' || field.type === 'select'"
-                            [(ngModel)]="field.optionText" [name]="'options_'+field.id" (change)="updateOptions(field.id)"
+                            [(ngModel)]="field.optionText" [name]="'options_'+field.id"
+                            (change)="updateOptions(field.id)"
                             class="w-full text-sm p-2 border border-gray-300 rounded bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
                             placeholder="Options (e.g. Yes,No)" />
                     </div>
@@ -250,7 +248,6 @@
                 </div>
             </div>
         </div>
-
 
     </div>
 </div>
